@@ -10,9 +10,7 @@ import com.alxminyaev.neuralnetwork.util.ConnectionBuilder
 class NeuralNet(sizeIn: Int, sizesHidden: ArrayList<Int>, sizeOut: Int) : ConsolePrinter {
 
     companion object {
-        private val INPUT_LAYER: String = "::: Input layer :::"
-        private val OUTPUT_LAYER: String = "::: Output layer :::"
-
+        const val TITLE: String = "Neural Net"
     }
 
     private val inputLayer: InputLayer = InputLayer(sizeIn)
@@ -22,11 +20,11 @@ class NeuralNet(sizeIn: Int, sizesHidden: ArrayList<Int>, sizeOut: Int) : Consol
     private val outputLayer: OutputLayer = OutputLayer(sizeOut)
 
     init {
-        if (sizesHidden.size == 0) {
+        if (sizesHidden.size != 0) {
             sizesHidden.forEach { size -> hiddenLayerList.add(HiddenLayer(size)) }
             ConnectionBuilder.allToAll(inputLayer, hiddenLayerList[0])
 
-            for (index in 0 until hiddenLayerList.size) {
+            for (index in 0 until hiddenLayerList.size-1) {
                 ConnectionBuilder.allToAll(hiddenLayerList[index], hiddenLayerList[index + 1])
             }
 
@@ -38,15 +36,17 @@ class NeuralNet(sizeIn: Int, sizesHidden: ArrayList<Int>, sizeOut: Int) : Consol
     }
 
     override fun print() {
-        println(INPUT_LAYER)
+        println("::: ${InputLayer.TITLE} :::")
         inputLayer.print()
 
         for (index in hiddenLayerList.indices) {
-            println("::: Hidden layer #$index :::")
+            println("::: ${HiddenLayer.TITLE} #$index :::")
             hiddenLayerList[index].print()
         }
 
-        println(OUTPUT_LAYER)
+        println("::: ${OutputLayer.TITLE} :::")
         outputLayer.print()
+
+        println()
     }
 }
