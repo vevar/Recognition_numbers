@@ -1,7 +1,7 @@
 package com.alxminyaev.neuralnetwork.util
 
-import com.alxminyaev.neuralnetwork.Layer
-import com.alxminyaev.neuralnetwork.Neuron
+import com.alxminyaev.neuralnetwork.components.Layer
+import com.alxminyaev.neuralnetwork.components.Neuron
 
 class ConnectionBuilder {
 

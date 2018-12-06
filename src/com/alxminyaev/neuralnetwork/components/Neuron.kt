@@ -1,9 +1,11 @@
-package com.alxminyaev.neuralnetwork
+package com.alxminyaev.neuralnetwork.components
 
+import com.alxminyaev.ConsolePrinter
+import com.alxminyaev.neuralnetwork.util.ActivationFunction
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Neuron {
+class Neuron : ConsolePrinter {
 
     private class Dendrite {
         var inputSignal: Double = 0.0
@@ -31,8 +33,11 @@ class Neuron {
     }
 
     fun createConnection(connectedNeural: Neuron) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listOutputNeurons.add(connectedNeural)
     }
 
+    override fun print() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 }

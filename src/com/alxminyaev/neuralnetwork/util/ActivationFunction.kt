@@ -1,4 +1,4 @@
-package com.alxminyaev.neuralnetwork
+package com.alxminyaev.neuralnetwork.util
 
 
 import kotlin.math.exp

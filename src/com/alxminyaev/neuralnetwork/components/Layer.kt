@@ -1,4 +1,4 @@
-package com.alxminyaev.neuralnetwork
+package com.alxminyaev.neuralnetwork.components
 
 import java.util.ArrayList
 
@@ -16,7 +16,4 @@ abstract class Layer(var numberOfNeuronsInLayer: Int) {
         return listOfNeural
     }
 
-    abstract fun initLayer()
-
-    abstract fun printLayer()
 }
