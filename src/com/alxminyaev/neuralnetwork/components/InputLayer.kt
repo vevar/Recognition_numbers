@@ -9,7 +9,17 @@ class InputLayer(size: Int) : Layer(size), ConsolePrinter {
     }
 
     init {
-        getListOfNeural().forEach { neural -> {
-        } }
+        getListOfNeural().forEach { neuron: Neuron ->
+            neuron.getDendriteList().add(Neuron.Dendrite())
+        }
+    }
+
+    fun receiveSignals(inputXs: ArrayList<Double>) {
+        val listOfInputNeurones = getListOfNeural()
+        if (listOfInputNeurones.size >= inputXs.size) {
+            for (i in inputXs.indices) {
+                listOfInputNeurones[i].getDendriteList()[0].inputSignal = inputXs[i]
+            }
+        }
     }
 }

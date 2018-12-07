@@ -1,6 +1,7 @@
 package com.alxminyaev.neuralnetwork.components
 
 import com.alxminyaev.ConsolePrinter
+import com.alxminyaev.Data
 import com.alxminyaev.neuralnetwork.util.ActivationFunction
 import java.util.*
 import kotlin.collections.ArrayList
@@ -13,13 +14,19 @@ class Neuron : ConsolePrinter {
 
     }
 
-    private class Dendrite {
+    class Dendrite {
         var inputSignal: Double = 0.0
         var weight: Double = Random().nextDouble()
     }
 
     private val dendriteList: ArrayList<Dendrite> = ArrayList()
-    private val listOutputNeurons: ArrayList<Neuron> = ArrayList()
+    private val outputDendriteList: ArrayList<Dendrite> = ArrayList()
+
+    private var resultRunCore: Double = 0.0
+
+    fun getDendriteList(): ArrayList<Dendrite> {
+        return dendriteList
+    }
 
     fun runCore() {
         var totalInSignal = 0.0
@@ -28,36 +35,37 @@ class Neuron : ConsolePrinter {
             totalInSignal += dendrite.inputSignal * dendrite.weight
         }
 
-        val signal = ActivationFunction.sigmoid(totalInSignal)
+        resultRunCore = ActivationFunction.sigmoid(totalInSignal)
 
-        sendSignal(signal)
+        sendSignalToNextNeurons(resultRunCore)
     }
 
-    private fun sendSignal(signal: Double) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun sendSignalToNextNeurons(signal: Double) {
+        outputDendriteList.forEach { dendrite: Dendrite ->
+            dendrite.inputSignal = signal
+        }
     }
 
     fun createConnection(connectedNeural: Neuron) {
-        listOutputNeurons.add(connectedNeural)
-        connectedNeural.dendriteList.add(Dendrite())
+        val dendrite = Dendrite()
+        outputDendriteList.add(dendrite)
+        connectedNeural.dendriteList.add(dendrite)
+    }
+
+    fun getResultRunCore(): Double {
+        return resultRunCore
     }
 
     override fun print() {
 
         print("$WEIGHT: [")
-
-        if (dendriteList.size == 0) {
-            println("]")
-        } else {
-            if (dendriteList.size > 1) {
-                for (index in 0 until dendriteList.size - 1) {
-                    print("${dendriteList[index].weight}, ")
-                }
+        if (dendriteList.size > 0) {
+            for (i in 0 until dendriteList.size - 1) {
+                print("${dendriteList[i].weight}, ")
             }
-            println("${dendriteList[dendriteList.size - 1].weight}]")
+            print(dendriteList[dendriteList.size - 1].weight)
         }
-        println()
+        println("]")
     }
-
 }
 
