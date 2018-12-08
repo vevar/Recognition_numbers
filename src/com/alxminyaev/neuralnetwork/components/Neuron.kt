@@ -1,12 +1,11 @@
 package com.alxminyaev.neuralnetwork.components
 
 import com.alxminyaev.ConsolePrinter
-import com.alxminyaev.Data
 import com.alxminyaev.neuralnetwork.util.ActivationFunction
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Neuron : ConsolePrinter {
+open class Neuron : ConsolePrinter {
 
     companion object {
         const val TITLE: String = "Neuron"
@@ -28,7 +27,7 @@ class Neuron : ConsolePrinter {
         return dendriteList
     }
 
-    fun runCore() {
+    open fun runCore() {
         var totalInSignal = 0.0
 
         for (dendrite in dendriteList) {
@@ -40,16 +39,18 @@ class Neuron : ConsolePrinter {
         sendSignalToNextNeurons(resultRunCore)
     }
 
-    private fun sendSignalToNextNeurons(signal: Double) {
+    protected fun sendSignalToNextNeurons(signal: Double) {
         outputDendriteList.forEach { dendrite: Dendrite ->
             dendrite.inputSignal = signal
         }
     }
 
     fun createConnection(connectedNeural: Neuron) {
-        val dendrite = Dendrite()
-        outputDendriteList.add(dendrite)
-        connectedNeural.dendriteList.add(dendrite)
+        if (connectedNeural !is BiasNeuron) {
+            val dendrite = Dendrite()
+            outputDendriteList.add(dendrite)
+            connectedNeural.dendriteList.add(dendrite)
+        }
     }
 
     fun getResultRunCore(): Double {

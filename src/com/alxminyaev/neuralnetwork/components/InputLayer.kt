@@ -12,12 +12,13 @@ class InputLayer(size: Int) : Layer(size), ConsolePrinter {
         getListOfNeural().forEach { neuron: Neuron ->
             neuron.getDendriteList().add(Neuron.Dendrite())
         }
+        getListOfNeural().add(BiasNeuron())
     }
 
     fun receiveSignals(inputXs: ArrayList<Double>) {
         val listOfInputNeurones = getListOfNeural()
         if (listOfInputNeurones.size >= inputXs.size) {
-            for (i in inputXs.indices) {
+            for (i in 0 until listOfInputNeurones.size - 1) {
                 listOfInputNeurones[i].getDendriteList()[0].inputSignal = inputXs[i]
             }
         }

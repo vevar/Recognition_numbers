@@ -8,4 +8,7 @@ class HiddenLayer(size: Int) : Layer(size), ConsolePrinter {
         const val TITLE: String = "Hidden layer"
     }
 
+    init {
+        getListOfNeural().add(BiasNeuron())
+    }
 }
