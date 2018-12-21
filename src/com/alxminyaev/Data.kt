@@ -40,4 +40,8 @@ class Data(private val inputDataX: ArrayList<Double>, private var outputDataY: A
         println("]")
         println()
     }
+
+    fun getOutputY(): ArrayList<Double> {
+        return outputDataY
+    }
 }

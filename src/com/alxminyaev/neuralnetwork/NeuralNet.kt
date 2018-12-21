@@ -15,11 +15,13 @@ class NeuralNet(sizeIn: Int, sizesHidden: ArrayList<Int>, sizeOut: Int) : Consol
         const val TITLE: String = "Neural Net"
     }
 
-    private val inputLayer: InputLayer = InputLayer(sizeIn)
+    val inputLayer: InputLayer = InputLayer(sizeIn)
 
-    private val hiddenLayerList: ArrayList<HiddenLayer> = ArrayList()
+    val hiddenLayerList: ArrayList<HiddenLayer> = ArrayList()
 
-    private val outputLayer: OutputLayer = OutputLayer(sizeOut)
+    val outputLayer: OutputLayer = OutputLayer(sizeOut)
+
+    val amountLayers = (if (sizeIn != 0) 1 else 0) + (if (sizeOut != 0) 1 else 0) + sizesHidden.size
 
     init {
         if (sizesHidden.size != 0) {
@@ -37,7 +39,6 @@ class NeuralNet(sizeIn: Int, sizesHidden: ArrayList<Int>, sizeOut: Int) : Consol
         }
     }
 
-
     override fun print() {
         println("::: ${InputLayer.TITLE} :::")
         inputLayer.print()
@@ -54,8 +55,8 @@ class NeuralNet(sizeIn: Int, sizesHidden: ArrayList<Int>, sizeOut: Int) : Consol
     }
 
     fun prediction(dataList: ArrayList<Data>): ArrayList<Data> {
-
-        dataList.forEach { data: Data ->
+        val dataResult: ArrayList<Data> = ArrayList(dataList)
+        dataResult.forEach { data: Data ->
             val inputXs = data.getInputX()
             inputLayer.receiveSignals(inputXs)
             inputLayer.getListOfNeural().forEach { neuron: Neuron ->
@@ -75,7 +76,30 @@ class NeuralNet(sizeIn: Int, sizesHidden: ArrayList<Int>, sizeOut: Int) : Consol
             data.setOutputY(resultList)
         }
 
+        return dataResult
+    }
 
-        return dataList
+    fun singlePrediction(data: Data): Data {
+        val dataResult = Data(data.getInputX(), data.getOutputY())
+
+        val inputXs = dataResult.getInputX()
+        inputLayer.receiveSignals(inputXs)
+        inputLayer.getListOfNeural().forEach { neuron: Neuron ->
+            neuron.runCore()
+        }
+
+        hiddenLayerList.forEach { hiddenLayer: HiddenLayer ->
+            hiddenLayer.getListOfNeural().forEach { neuron: Neuron ->
+                neuron.runCore()
+            }
+        }
+        val resultList: ArrayList<Double> = ArrayList()
+        outputLayer.getListOfNeural().forEach { neuron: Neuron ->
+            neuron.runCore()
+            resultList.add(neuron.getResultRunCore())
+        }
+        dataResult.setOutputY(resultList)
+
+        return dataResult
     }
 }

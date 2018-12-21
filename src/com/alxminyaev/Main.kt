@@ -25,11 +25,10 @@ class Main : Application() {
         fun main(args: Array<String>) {
             //        launch(args);
             val sizeHidden = ArrayList<Int>()
-            sizeHidden.add(4)
-            sizeHidden.add(1)
-            sizeHidden.add(3)
+            sizeHidden.add(15)
 
-            val neuralNet = NeuralNet(3, sizeHidden, 1)
+
+            val neuralNet = NeuralNet(784, sizeHidden, 10)
             println(NeuralNet.TITLE)
             neuralNet.print()
 

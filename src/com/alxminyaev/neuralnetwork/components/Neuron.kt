@@ -10,7 +10,6 @@ open class Neuron : ConsolePrinter {
     companion object {
         const val TITLE: String = "Neuron"
         const val WEIGHT: String = "Weight"
-
     }
 
     class Dendrite {

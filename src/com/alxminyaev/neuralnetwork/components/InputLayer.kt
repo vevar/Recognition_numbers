@@ -18,9 +18,11 @@ class InputLayer(size: Int) : Layer(size), ConsolePrinter {
     fun receiveSignals(inputXs: ArrayList<Double>) {
         val listOfInputNeurones = getListOfNeural()
         if (listOfInputNeurones.size >= inputXs.size) {
-            for (i in 0 until listOfInputNeurones.size - 1) {
+            for (i in 0 until inputXs.size - 1) {
                 listOfInputNeurones[i].getDendriteList()[0].inputSignal = inputXs[i]
             }
+        } else {
+            TODO()
         }
     }
 }
